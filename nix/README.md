@@ -13,46 +13,56 @@ Replace `<host>` or `<user>` with your flake output names (e.g. `macbook` or you
 
 - Apply darwin configuration (rebuild + switch):
     ```
-    darwin-rebuild switch --flake .#<host>
+    sh
+    darwin-rebuild switch --flake <path>#<host>
     ```
 - Build darwin artifacts (without switching):
     ```
-    darwin-rebuild build --flake .#<host>
+    sh
+    darwin-rebuild build --flake <path>#<host>
     ```
 - Test configuration (dry-run):
     ```
-    darwin-rebuild test --flake .#<host>
+    sh
+    darwin-rebuild test --flake <path>#<host>
     ```
 - Apply home-manager config (if exposed separately):
     ```
-    home-manager switch --flake .#<user>
+    sh
+    home-manager switch --flake <path>#<user>
     ```
 
 - Update flakes:
     ```
+    sh
     nix flake update
     ```
 - Inspect flake outputs:
     ```
+    sh
     nix flake show
     ```
 - Build a specific output:
     ```
+    sh
     nix build .#darwinConfigurations.<host>.system
     ```
 - Enter a dev shell:
     ```
+    sh
     nix develop
     ```
 
 - Cleanup old generations / GC:
     ```
+    sh
     sudo nix-collect-garbage -d
     ```
 
 ## Tips
 - Use `hostname` to get the current machine name for flake targets:
     ```
+    sh
     darwin-rebuild switch --flake .#$(hostname)
     ```
 - Keep changes small and test with `darwin-rebuild build` or `test` before `switch`.
