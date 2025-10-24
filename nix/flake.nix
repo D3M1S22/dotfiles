@@ -9,36 +9,20 @@
     
    ## home-manger
     home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs"; 
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager }:
+  outputs = inputs@{ self, nix-darwin, home-manager, nixpkgs, ... }:
   let
-    # Current system
-    system = builtins.currentSystem;
-    pkgs = import nixpkgs { inherit system; };
-
-    # Detect platform
-    isDarwin = pkgs.stdenv.isDarwin;
-    isLinux = pkgs.stdenv.isLinux;
-    isNixos = builtins.pathExists "/etc/NIXOS";
-
-    # Select correct system config
-    systemConfig =
-      if isDarwin && pkgs.stdenv.isAarch64 then ./system/macosm1.nix
-      else if isLinux then ./system/linux.nix
-      else abort "Unsupported system: ${system}";
-    
-    homeManagerConfiguration = 
-    {
-      home-manager.useGlobalPkgs = true;
-      home-manager.users.demis = import ~/.config/nix/home.nix;
-    };
+      system = "aarch64-darwin"; # Change to your system
+      pkgs = import nixpkgs { inherit system; };
+      
+      # choose config file by system string (pure)
+      systemConfig =  ./system/macosm1.nix;
   in
   {
     # --- macOS (nix-darwin) ---
     darwinConfigurations."home-air" =
-      if isDarwin then
         nix-darwin.lib.darwinSystem {
           inherit system;
           modules = [
@@ -47,16 +31,9 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.demis = import ./home/home.nix;
+              home-manager.users.demis = ./home/home.nix;
             }
           ];
-        }
-      else null;
-    # # Build darwin flake using:
-    # # $ darwin-rebuild build --flake .#damianos-MacBook-Air
-    # darwinConfigurations."home-air" = nix-darwin.lib.darwinSystem {
-    #   inherit system;
-    #   modules = [ configuration, home-manager.darwinModules.home-manager, homeManagerConfiguration ];
-    # };
+        };
   };
 }
