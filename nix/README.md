@@ -12,57 +12,47 @@ Minimal README for managing this repository with nix-darwin and home-manager (fl
 Replace `<host>` or `<user>` with your flake output names (e.g. `macbook` or your username).
 
 - Apply darwin configuration (rebuild + switch):
-    ```
-    sh
+    ```sh
     darwin-rebuild switch --flake <path>#<host>
     ```
 - Build darwin artifacts (without switching):
-    ```
-    sh
+    ```sh
     darwin-rebuild build --flake <path>#<host>
     ```
 - Test configuration (dry-run):
-    ```
-    sh
+    ```sh
     darwin-rebuild test --flake <path>#<host>
     ```
 - Apply home-manager config (if exposed separately):
-    ```
-    sh
+    ```sh
     home-manager switch --flake <path>#<user>
     ```
 
 - Update flakes:
-    ```
-    sh
+    ```sh
     nix flake update
     ```
 - Inspect flake outputs:
-    ```
-    sh
+    ```sh
     nix flake show
     ```
 - Build a specific output:
-    ```
-    sh
+    ```sh
     nix build .#darwinConfigurations.<host>.system
     ```
 - Enter a dev shell:
-    ```
-    sh
+    ```sh
     nix develop
     ```
 
 - Cleanup old generations / GC:
-    ```
-    sh
+    ```sh
     sudo nix-collect-garbage -d
     ```
 
 ## Tips
 - Use `hostname` to get the current machine name for flake targets:
-    ```
-    sh
+    ```sh
     darwin-rebuild switch --flake .#$(hostname)
     ```
 - Keep changes small and test with `darwin-rebuild build` or `test` before `switch`.
