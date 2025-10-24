@@ -1,13 +1,14 @@
 { config, pkgs, lib, ... }: {
   home.username = "demis";
-  home.homeDirectory = lib.mkForce "/Users/demis";  # ✅ must be absolute path
-  home.stateVersion = "24.05";          # match nixpkgs version
+  home.homeDirectory = lib.mkForce "/Users/demis";
+  # ✅ must be absolute path
 
-  home.packages = with pkgs;
-  [ 
+  home.packages = with pkgs; [
     pkgs.neovim
   ];
-  
-  programs.home-manager.enable = true;
-}
 
+  home.stateVersion = "25.11";
+  
+  # --- REMOVE THIS LINE ---
+  # programs.home-manager.enable = true;          # Not needed with nix-darwin module
+}

@@ -1,21 +1,21 @@
 { pkgs, ... }: {
-    # List packages installed in system profile. To search by name, run:
-    # $ nix-env -qaP | grep wget
-    environment.systemPackages = with pkgs;
-    [ 
-    ];
+  environment.systemPackages = with pkgs;
+  [
+    home-manager
+  ];
 
-    # Necessary for using flakes on this system.
-    nix.settings.experimental-features = "nix-command flakes";
+  # --- ADD THIS BLOCK ---
+  # Tell nix-darwin that 'demis' uses zsh
+  users.users.demis.shell = pkgs.zsh;
+  # ---------------------
 
-    # Enable alternative shell support in nix-darwin.
-    nix.enable = false;
-    # programs.fish.enable = true;
-
-    # Used for backwards compatibility, please read the changelog before changing.
-    # $ darwin-rebuild changelog
-    system.stateVersion = 6;
-
-    # The platform the configuration will be used on.
-    nixpkgs.hostPlatform = "aarch64-darwin";
+  nix.settings.experimental-features = "nix-command flakes";
+  system.stateVersion = 6;
+  nixpkgs.hostPlatform = "aarch64-darwin";
+  nix.enable = false;
+  
+  # Keep this from the last fix
+  programs.zsh = {
+    enable = true;
+  };
 }
