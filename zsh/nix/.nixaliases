@@ -1,0 +1,9 @@
+##### EDIT NIX CONFIGS #####
+if
+  alias nixconf = "nvim ~/dotfiles/nix/flake.nix"
+  alias nixhome = "nvim ~/dotfiles/nix/flake.nix"
+else
+  alias nixconf = "vi ~/dotfiles/nix/flake.nix"
+  alias nixhome = "vi ~/dotfiles/nix/flake.nix"
+fi
+###########################

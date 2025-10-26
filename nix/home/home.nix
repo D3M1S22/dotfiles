@@ -11,4 +11,5 @@
   
   # --- REMOVE THIS LINE ---
   # programs.home-manager.enable = true;          # Not needed with nix-darwin module
+  
 }
