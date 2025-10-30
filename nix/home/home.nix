@@ -11,7 +11,11 @@
     # alttab
   ];
   
+  ## loading zsh config
   home.file.".zshrc".source   = "${dotfiles}/zsh/.zshrc";
+  ## loading ghostty config
+  xdg.configFile."ghostty/config".source = "${dotfiles}/ghostty/config";
+  
   home.stateVersion = "25.11";
   
   programs.starship = {
