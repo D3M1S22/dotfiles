@@ -15,6 +15,8 @@
   home.file.".zshrc".source   = "${dotfiles}/zsh/.zshrc";
   ## loading ghostty config
   xdg.configFile."ghostty/config".source = "${dotfiles}/ghostty/config";
+
+  home.file."Library/Application Support/com.mitchellh.ghostty/config".source = "${dotfiles}/ghostty/config.macos";
   
   home.stateVersion = "25.11";
   
