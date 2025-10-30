@@ -24,3 +24,5 @@
   # [ -f $here/ghostty/.ghosttyaliases ] && source $here/ghostty/.ghosttyaliases
 #
 ###################
+
+echo test
