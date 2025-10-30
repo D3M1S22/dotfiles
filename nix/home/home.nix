@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, dotfiles, ... }: {
   home.username = "demis";
   home.homeDirectory = lib.mkForce "/Users/demis";
   # ✅ must be absolute path
@@ -9,7 +9,8 @@
     starship
     # alttab
   ];
-
+  
+  home.file.".zshrc".source   = "${dotfiles}/zsh/.zshrc";
   home.stateVersion = "25.11";
   
   programs.starship = {

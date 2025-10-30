@@ -9,10 +9,16 @@
     
    ## home-manger
     home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs"; 
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    ## dotfiles
+    dotfiles = {
+      url = "github:D3M1S22/dotfiles";
+      flake = false;
+    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, dotfiles }:
   let
       system = "aarch64-darwin"; # Change to your system
       pkgs = import nixpkgs { inherit system; };
@@ -38,6 +44,10 @@
               system.configurationRevision = self.rev or self.dirtyRev or null;
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = false;
+
+              home-manager.backupFileExtension = "preHM";  # e.g. makes ~/.zshrc.preHM
+              home-manager.extraSpecialArgs = { inherit dotfiles; };
+
               home-manager.users.demis = import ./home/home.nix;
             }
           ];
