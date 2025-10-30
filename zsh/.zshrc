@@ -1,4 +1,4 @@
-# local here="${${(%):-%N}:A:h}"
+local here="${${(%):-%N}:A:h}"
 ##### zshrc inclusion #####
 #
   alias zshrcsrc="source ~/.zshrc"

@@ -7,7 +7,7 @@
     neovim
     alt-tab-macos
     starship
-    ghostty
+    ghostty-bin
     # alttab
   ];
   
