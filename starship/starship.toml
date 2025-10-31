@@ -1,0 +1,342 @@
+# version: 1.0.0
+add_newline = true
+palette = "monokai_soda_ghostty"
+continuation_prompt = "[▸▹ ](fg:dim)"
+
+format = """($nix_shell$container$fill$git_metrics\n)$cmd_duration\
+$hostname\
+$localip\
+$shlvl\
+$shell\
+$env_var\
+$jobs\
+$sudo\
+$username\
+$character"""
+
+right_format = """
+$singularity\
+$kubernetes\
+$directory\
+$vcsh\
+$fossil_branch\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$hg_branch\
+$pijul_channel\
+$docker_context\
+$package\
+$c\
+$cpp\
+$cmake\
+$cobol\
+$daml\
+$dart\
+$deno\
+$dotnet\
+$elixir\
+$elm\
+$erlang\
+$fennel\
+$fortran\
+$golang\
+$guix_shell\
+$haskell\
+$haxe\
+$helm\
+$java\
+$julia\
+$kotlin\
+$gradle\
+$lua\
+$nim\
+$nodejs\
+$ocaml\
+$opa\
+$perl\
+$php\
+$pulumi\
+$purescript\
+$python\
+$raku\
+$rlang\
+$red\
+$ruby\
+$rust\
+$scala\
+$solidity\
+$swift\
+$terraform\
+$vlang\
+$vagrant\
+$xmake\
+$zig\
+$buf\
+$conda\
+$pixi\
+$meson\
+$spack\
+$memory_usage\
+$aws\
+$gcloud\
+$openstack\
+$azure\
+$crystal\
+$custom\
+$status\
+$os\
+$battery\
+$time"""
+
+[fill]
+symbol = ' '
+
+# ── Palette from your Ghostty Monokai Soda
+[palettes.monokai_soda_ghostty]
+base   = "#1a1a1a"   # background
+text   = "#c4c5b5"   # foreground
+dim    = "#9e9e9e"
+red    = "#f4005f"
+green  = "#98e024"
+yellow = "#e0d561"
+orange = "#fa8419"
+cyan   = "#58d1eb"   # "blue-ish"
+purple = "#9d65ff"
+white  = "#f6f6ef"
+comment= "#625e4c"
+
+[character]
+format = "$symbol "
+success_symbol = "[◎](bold italic fg:yellow)"
+error_symbol   = "[○](italic fg:purple)"
+vimcmd_symbol  = "[■](italic dimmed fg:green)"
+vimcmd_replace_one_symbol = "◌"
+vimcmd_replace_symbol = "□"
+vimcmd_visual_symbol = "▼"
+
+[env_var.VIMSHELL]
+format = "[$env_value]($style)"
+style = "italic fg:green"
+
+[sudo]
+format = "[$symbol]($style)"
+style = "bold italic fg:purple"
+symbol = "⋈┈"
+disabled = false
+
+[username]
+style_user = "fg:yellow bold italic"
+style_root = "fg:purple bold italic"
+format = "[⭘ $user]($style) "
+disabled = false
+show_always = false
+
+[directory]
+home_symbol = "⌂"
+truncation_length = 2
+truncation_symbol = "□ "
+read_only = " ◈"
+use_os_path_sep = true
+style = "italic fg:cyan"
+format = '[$path]($style)[$read_only]($read_only_style)'
+repo_root_style = 'bold fg:cyan'
+repo_root_format = '[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) [△](bold fg:cyan)'
+
+[cmd_duration]
+format = "[◄ $duration ](italic fg:white)"
+
+[jobs]
+format = "[$symbol$number]($style) "
+style = "fg:text"
+symbol = "[▶](italic fg:cyan)"
+
+[localip]
+ssh_only = true
+format = " ◯[$localipv4](bold fg:purple)"
+disabled = false
+
+[time]
+disabled = false
+format = "[ $time]($style)"
+time_format = "%R"
+utc_time_offset = "local"
+style = "italic fg:dim"
+
+[battery]
+format = "[ $percentage $symbol]($style)"
+full_symbol = "█"
+charging_symbol = "[↑](italic bold fg:green)"
+discharging_symbol = "↓"
+unknown_symbol = "░"
+empty_symbol = "▃"
+
+[[battery.display]]
+threshold = 20
+style = "italic bold fg:red"
+
+[[battery.display]]
+threshold = 60
+style = "italic dimmed fg:purple"
+
+[[battery.display]]
+threshold = 70
+style = "italic dimmed fg:yellow"
+
+[git_branch]
+format = " [$branch(:$remote_branch)]($style)"
+symbol = "[△](bold italic fg:cyan)"
+style = "italic fg:cyan"
+truncation_symbol = "⋯"
+truncation_length = 11
+ignore_branches = ["main", "master"]
+only_attached = true
+
+[git_metrics]
+format = '([▴$added]($added_style))([▿$deleted]($deleted_style))'
+added_style = 'italic dimmed fg:green'
+deleted_style = 'italic dimmed fg:red'
+ignore_submodules = true
+disabled = false
+
+[git_status]
+style = "bold italic fg:red"
+format = "([⎪$ahead_behind$staged$modified$untracked$renamed$deleted$conflicted$stashed⎥]($style))"
+conflicted = "[◪◦](italic fg:purple)"
+ahead = "[▴│[${count}](bold fg:white)│](italic fg:green)"
+behind = "[▿│[${count}](bold fg:white)│](italic fg:red)"
+diverged = "[◇ ▴┤[${ahead_count}](fg:white)│▿┤[${behind_count}](fg:white)│](italic fg:purple)"
+untracked = "[◌◦](italic fg:yellow)"
+stashed = "[◃◈](italic fg:text)"
+modified = "[●◦](italic fg:yellow)"
+staged = "[▪┤[$count](bold fg:white)│](italic fg:cyan)"
+renamed = "[◎◦](italic fg:cyan)"
+deleted = "[✕](italic fg:red)"
+
+[deno]
+format = " [deno](italic) [∫ $version](bold fg:green)"
+version_format = "${raw}"
+
+[lua]
+format = " [lua](italic) [${symbol}${version}]($style)"
+version_format = "${raw}"
+symbol = "⨀ "
+style = "bold fg:yellow"
+
+[nodejs]
+format = " [node](italic) [◫ ($version)](bold fg:green)"
+version_format = "${raw}"
+detect_files = ["package-lock.json", "yarn.lock"]
+detect_folders = ["node_modules"]
+detect_extensions = []
+
+[python]
+format = " [py](italic) [${symbol}${version}]($style)"
+symbol = "[⌉](bold fg:cyan)⌊ "
+version_format = "${raw}"
+style = "bold fg:yellow"
+
+[ruby]
+format = " [rb](italic) [${symbol}${version}]($style)"
+symbol = "◆ "
+version_format = "${raw}"
+style = "bold fg:red"
+
+[rust]
+format = " [rs](italic) [$symbol$version]($style)"
+symbol = "⊃ "
+version_format = "${raw}"
+style = "bold fg:red"
+
+[package]
+format = " [pkg](italic dimmed) [$symbol$version]($style)"
+version_format = "${raw}"
+symbol = "◨ "
+style = "bold italic dimmed fg:yellow"
+
+[swift]
+format = " [sw](italic) [${symbol}${version}]($style)"
+symbol = "◁ "
+style = "bold fg:red"
+version_format = "${raw}"
+
+[aws]
+disabled = true
+format = " [aws](italic) [$symbol $profile $region]($style)"
+style = "bold fg:cyan"
+symbol = "▲ "
+
+[buf]
+symbol = "■ "
+format = " [buf](italic) [$symbol $version $buf_version]($style)"
+
+[c]
+symbol = "ℂ "
+format = " [$symbol($version(-$name))]($style)"
+
+[cpp]
+symbol = "ℂ "
+format = " [$symbol($version(-$name))]($style)"
+
+[conda]
+symbol = "◯ "
+format = " conda [$symbol$environment]($style)"
+
+[pixi]
+symbol = "■ "
+format = " pixi [$symbol$version ($environment )]($style)"
+
+[dart]
+symbol = "◁◅ "
+format = " dart [$symbol($version )]($style)"
+
+[docker_context]
+symbol = "◧ "
+format = " docker [$symbol$context]($style)"
+
+[elixir]
+symbol = "△ "
+format = " exs [$symbol $version OTP $otp_version ]($style)"
+
+[elm]
+symbol = "◩ "
+format = " elm [$symbol($version )]($style)"
+
+[golang]
+symbol = "∩ "
+format = " go [$symbol($version )]($style)"
+
+[haskell]
+symbol = "❯λ "
+format = " hs [$symbol($version )]($style)"
+
+[java]
+symbol = "∪ "
+format = " java [${symbol}(${version} )]($style)"
+
+[julia]
+symbol = "◎ "
+format = " jl [$symbol($version )]($style)"
+
+[memory_usage]
+symbol = "▪▫▪ "
+format = " mem [${ram}( ${swap})]($style)"
+style = "fg:dim"
+
+[nim]
+symbol = "▴▲▴ "
+format = " nim [$symbol($version )]($style)"
+
+[nix_shell]
+style = 'bold italic dimmed fg:cyan'
+symbol = '✶'
+format = '[$symbol nix⎪$state⎪]($style) [$name](italic fg:dim)'
+impure_msg = '[⌽](bold fg:red)'
+pure_msg = '[⌾](bold fg:green)'
+unknown_msg = '[◌](bold fg:yellow)'
+
+[spack]
+symbol = "◇ "
+format = " spack [$symbol$environment]($style)"
+
