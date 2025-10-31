@@ -14,16 +14,15 @@
   ## loading zsh config
   home.file.".zshrc".source   = "${dotfiles}/zsh/.zshrc";
   ## loading ghostty config
-  xdg.configFile."ghostty/config".source = "${dotfiles}/ghostty/config";
-
-  home.file."Library/Application Support/com.mitchellh.ghostty/config".source = "${dotfiles}/ghostty/config.macos";
+   xdg.configFile."ghostty" = {
+    source = "${dotfiles}/ghostty";
+    # optional: make a real dir with per-file symlinks
+    # recursive = true;
+  };
   
   home.stateVersion = "25.11";
   
   programs.starship = {
     enable = true;
   };
-  # --- REMOVE THIS LINE ---
-  # programs.home-manager.enable = true;          # Not needed with nix-darwin module
-  
 }

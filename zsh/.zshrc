@@ -24,3 +24,9 @@ local here="${${(%):-%N}:A:h}"
   [ -f $here/ghostty/.ghosttyaliases ] && source $here/ghostty/.ghosttyaliases
 #
 ###################
+
+##### starship #####
+#
+  eval "$(starship init zsh)"
+#
+####################
