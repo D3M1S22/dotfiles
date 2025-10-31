@@ -20,6 +20,9 @@
     # recursive = true;
   };
   
+  ## loading starship config
+  xdg.configFile."starship.toml".source = "${dotfiles}/starship/starship.toml";
+
   home.stateVersion = "25.11";
   
   programs.starship = {
