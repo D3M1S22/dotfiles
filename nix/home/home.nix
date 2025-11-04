@@ -3,13 +3,16 @@
   home.homeDirectory = lib.mkForce "/Users/demis";
   # ✅ must be absolute path
 
+  imports = [ nvf.homeManagerModules.default ];
+
   home.packages = with pkgs; [
-    neovim
     alt-tab-macos
     starship
     ghostty-bin
     # alttab
+    nvim
   ];
+
   
   ## loading zsh config
   home.file.".zshrc".source   = "${dotfiles}/zsh/.zshrc";
@@ -23,9 +26,13 @@
   ## loading starship config
   xdg.configFile."starship.toml".source = "${dotfiles}/starship/starship.toml";
 
+  ## loading nvim config
+  xdg.configFile."nvim".source = "${dotfiles}/nvim";
+
   home.stateVersion = "25.11";
   
   programs.starship = {
     enable = true;
   };
+
 }

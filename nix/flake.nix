@@ -16,6 +16,9 @@
       url = "github:D3M1S22/dotfiles";
       flake = false;
     };
+	
+    ## nvim config nvf [documentation](https://notashelf.github.io/nvf)
+    # nvf.url = "github:notashelf/nvf";
   };
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, dotfiles }:
@@ -42,13 +45,14 @@
             home-manager.darwinModules.home-manager
             {
               system.configurationRevision = self.rev or self.dirtyRev or null;
-              home-manager.useGlobalPkgs = true;
+              home-manager.useGlobalPkgs = false;
               home-manager.useUserPackages = false;
 
               home-manager.backupFileExtension = "preHM";  # e.g. makes ~/.zshrc.preHM
-              home-manager.extraSpecialArgs = { inherit dotfiles; };
-
-              home-manager.users.demis = import ./home/home.nix;
+              home-manager.extraSpecialArgs = { inherit dotfiles self; };
+              
+              # anchor to flake root; independent of CWD
+              home-manager.users.demis = import (self + /home/home.nix);
             }
           ];
         }
