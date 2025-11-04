@@ -13,6 +13,17 @@ return {
     end,
   },
 
+
+  {
+    "tanvirtin/monokai.nvim",
+    lazy = false,     -- load immediately
+    priority = 1000,  -- make sure it loads before others
+    config = function()
+      require("monokai").setup { palette = require("monokai").soda } -- or pro, ristretto, etc.
+    end,
+  },
+
+
   -- test new blink
   -- { import = "nvchad.blink.lazyspec" },
 
