@@ -3,14 +3,14 @@
   home.homeDirectory = lib.mkForce "/Users/demis";
   # ✅ must be absolute path
 
-  imports = [ nvf.homeManagerModules.default ];
+  # imports = [ nvf.homeManagerModules.default ];
 
   home.packages = with pkgs; [
     alt-tab-macos
     starship
     ghostty-bin
     # alttab
-    nvim
+    neovim
   ];
 
   
@@ -27,7 +27,18 @@
   xdg.configFile."starship.toml".source = "${dotfiles}/starship/starship.toml";
 
   ## loading nvim config
-  xdg.configFile."nvim".source = "${dotfiles}/nvim";
+  xdg.configFile."nvim" = {
+    source = "${dotfiles}/nvim";
+    recursive = true;                          # <— makes a real ~/.config/nvim dir
+    force = true;                              # <— replace old symlink if present
+  };
+
+  home.activation.masonInstallAll =
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      if command -v ${pkgs.neovim}/bin/nvim >/dev/null; then
+        ${pkgs.neovim}/bin/nvim --headless "+MasonInstallAll" +qa || true
+      fi
+    '';
 
   home.stateVersion = "25.11";
   
