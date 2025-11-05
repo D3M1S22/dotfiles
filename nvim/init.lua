@@ -32,6 +32,21 @@ dofile(vim.g.base46_cache .. "statusline")
 require "options"
 require "autocmds"
 
+vim.o.termguicolors = true
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+    for _, g in ipairs({
+      "Normal","NormalNC","NormalFloat","FloatBorder",
+      "SignColumn","LineNr","CursorLine","CursorLineNr","FoldColumn",
+      "TelescopeNormal","TelescopeBorder","Pmenu","PmenuSel",
+      "NeoTreeNormal","NeoTreeNormalNC","WhichKeyFloat","LazyNormal","MasonNormal",
+    }) do
+      vim.api.nvim_set_hl(0, g, { bg = "none" })
+    end
+  end,
+})
+
+
 vim.schedule(function()
   require "mappings"
 end)

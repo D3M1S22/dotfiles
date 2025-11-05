@@ -23,8 +23,8 @@ M.base46 = {
 
 M.ui = {
   theme = "monokai-soda",   -- or "monokai"
+  transparecy = true,
 }
 
-M.ui.transparency = true
 
 return M
