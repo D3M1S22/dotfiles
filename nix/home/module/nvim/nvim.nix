@@ -3,7 +3,7 @@
   imports = [
     nvf.homeManagerModules.default
     ./nvim-monokai.nix
-    ./nvim-chadtree.nix
+    ./nvim-neotree.nix
   ];
 
   home.packages = with pkgs; [
