@@ -1,4 +1,4 @@
-{ config, dotfiles, pkgs }: {
+{ config, dotfiles, pkgs, ... }: {
   
   home.packages = with pkgs; [
     ghostty-bin

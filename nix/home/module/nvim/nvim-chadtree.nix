@@ -2,7 +2,7 @@
 {
   programs.nvf.settings.vim = {
     startPlugins = with pkgs.vimPlugins; [ lazy-nvim ]; # bootstrap Lazy
-    luaConfigRC = ''
+    options.luaConfigRC = ''
       -- Lazy userspace plugin manager
       require("lazy").setup({
         {
