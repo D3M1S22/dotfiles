@@ -8,3 +8,8 @@ else
 fi
 ###########################
 
+##### LAUNCH NIX UPDATE #####
+#
+ alias nixupdate="../scripts/nixupdate"
+#
+#############################
