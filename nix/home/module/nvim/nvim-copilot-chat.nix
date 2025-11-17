@@ -3,6 +3,8 @@
 { pkgs,... }:{
   programs.nvf.settings.vim = {
     # CopilotChat needs plenary
+    lazy = true;
+    dependencies = [ pkgs.vimPlugins.plenary-nvim ];
     extraPlugins = {
 
       copilotchat = {
