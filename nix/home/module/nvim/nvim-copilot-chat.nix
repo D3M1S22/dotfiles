@@ -10,8 +10,7 @@ let
       rev   = "main";
       sha256 = "sha256-sT4UnxLvfuHZxkrMjFaUNVyun7sxwax83O/QB3f7fQE=";
     };
-    # Disable require check since plugin has Lua dependencies
-    checkPhase = "true";
+    dontCheckLua = true;
   };
 in
 {
