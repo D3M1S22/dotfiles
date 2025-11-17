@@ -4,9 +4,6 @@
   programs.nvf.settings.vim = {
     # CopilotChat needs plenary
     extraPlugins = {
-      plenary = {
-        package = pkgs.vimPlugins.plenary-nvim;
-      };
 
       copilotchat = {
         # If your nixpkgs doesn’t have this packaged, see Option B below.
