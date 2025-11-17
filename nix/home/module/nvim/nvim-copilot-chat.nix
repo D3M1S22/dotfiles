@@ -2,34 +2,37 @@
 
 { pkgs,... }:{
   programs.nvf.settings.vim = {
-    lazy.plugins = {
-      "CopilotC-Nvim/CopilotChat.nvim" = {
-        package = pkgs.vimPlugins.copilotchat-nvim;
+    # CopilotChat needs plenary
+    extraPlugins = {
+      plenary = {
+        package = pkgs.vimPlugins.plenary-nvim;
+      };
 
-        # This tells nvf to generate: require('copilot-chat').setup({})
-        setupModule = "copilot-chat";
-        setupOpts = {
-          chat = {
-            welcome_message = "Hello! I'm your AI assistant. How can I help you today?";
-            loading_text = "Loading, please wait...";
-            question_sign = "❓ ";
-            answer_sign = "💡 ";
-          };
-          window = {
-            border = {
-              style = "rounded";
-              text = {
-                top = " Copilot Chat ";
-              };
-            };
+      copilotchat = {
+        # If your nixpkgs doesn’t have this packaged, see Option B below.
+        package = pkgs.vimUtils.buildVimPlugin {
+          pname = "CopilotChat.nvim";
+          version = "git-2025-11-17";
+          src = pkgs.fetchFromGitHub {
+            owner = "CopilotC-Nvim";
+            repo  = "CopilotChat.nvim";
+            # Pin something you trust (replace with a commit or tag you want)
+            rev    = "main";
+            sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="; # build once to get real hash
           };
         };
 
-        # Define the global keymap to open Copilot Chat.
-        keys =  [
-          { mode = "n"; key = "<leader>cc"; action = ":CopilotChat<CR>"; desc = "Open Copilot Chat"; }
-        ];
+        # Configure the plugin (OpenAI example)
+        setup = ''
+          require("CopilotChat").setup({
+            model = "gpt-4o",
+            -- adapter = "openai", -- uncomment if you need to force the provider
+          })
+        '';
       };
     };
+
+    # nice to have
+    options.termguicolors = true;
   };
 }
