@@ -3,7 +3,6 @@
   ## neo-tree.nvim configuration
 
   programs.nvf.settings.vim = {
-    lazy = true;
     lazy.plugins = {
       # These are required by neo-tree and must be
       "plenary.nvim" = {
