@@ -15,7 +15,7 @@
             repo  = "CopilotChat.nvim";
             # Pin something you trust (replace with a commit or tag you want)
             rev    = "main";
-            sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="; # build once to get real hash
+            sha256 = "sha256-sT4UnxLvfuHZxkrMjFaUNVyun7sxwax83O/QB3f7fQE="; # build once to get real hash
           };
         };
 
