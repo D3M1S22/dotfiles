@@ -4,6 +4,7 @@
     nvf.homeManagerModules.default
     ./nvim-monokai.nix
     ./nvim-neotree.nix
+    ./nvim-copilot-chat.nix
   ];
 
   home.packages = with pkgs; [
