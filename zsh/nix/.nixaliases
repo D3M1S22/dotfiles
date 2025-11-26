@@ -1,7 +1,7 @@
 ##### EDIT NIX CONFIGS #####
 if command -v nvim >/dev/null 2>&1; then
   alias nixconf="nvim $HOME/dotfiles/nix/flake.nix"
-  alias nixhome="nvim $HOME/dotfiles/nix/home/home.nix"
+  alias nixhome="(cd $HOME/dotfiles/nix/home/ && nvim $HOME/dotfiles/nix/home/home.nix)"
 else
   alias nixconf="vi $HOME/dotfiles/nix/flake.nix"
   alias nixhome="vi $HOME/dotfiles/nix/home/home.nix"
