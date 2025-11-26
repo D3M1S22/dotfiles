@@ -1,34 +1,51 @@
 { pkgs, ... }:
-
-let
-  copilotchat-nvim = pkgs.vimUtils.buildVimPlugin {
-    pname = "CopilotChat.nvim";
-    version = "git-2025-11-17";
-    src = pkgs.fetchFromGitHub {
-      owner = "CopilotC-Nvim";
-      repo  = "CopilotChat.nvim";
-      rev   = "main";
-      sha256 = "sha256-sT4UnxLvfuHZxkrMjFaUNVyun7sxwax83O/QB3f7fQE=";
-    };
-    dontCheckLua = true;
-  };
-in
 {
   programs.nvf.settings.vim = {
     lazy.plugins = {
       "CopilotChat.nvim" = {
-        package = copilotchat-nvim;
-        setupModule = "CopilotChat";
+        package = pkgs.vimPlugins.CopilotChat-nvim;
         setupOpts = {
-          model = "gpt-4o";
+          window = {
+            layout = "float"; # Other options: "vertical", "horizontal"
+            border = "rounded";
+            title = " AI Assistant";
+            zindex = 100;
+          };
+          headers = {
+            user = " You: ";
+            assistant = " Copilot: ";
+            tool = " Tool: ";
+          };
+          chat = {
+            keymaps = {
+              # This changes the submit key in INSERT mode.
+              # The default is "<C-s>" 
+              submit_normal = "<A-s>"; # (Ctrl+Enter)
+
+              # You can also change the NORMAL mode submit key
+              # submit_normal = "<CR>"; # (This is the default):
+            };
+          };
+          separator = "━━";
+          show_folds = false;
         };
         keys = [
-          { mode = "n"; key = "<leader>cc"; action = ":CopilotChat<CR>"; desc = "Toggle CopilotChat"; }
-          { mode = "v"; key = "<leader>cc"; action = ":CopilotChat<CR>"; desc = "Toggle CopilotChat"; }
+          {
+            key = "<leader>ct";
+            action = "<cmd>CopilotChatToggle<cr>"; # Toggle CopilotChat
+            desc = "CopilotChat - Toggle";
+            mode = "n"; # Normal mode
+          }
+          {
+            key = "<leader>ce";
+            action = "<cmd>CopilotChatExplain<cr>"; # Explain selection [11, 12]
+            desc = "CopilotChat - Explain";
+            mode = "v"; # Visual mode
+          }
+          # Add more keymaps as desired, e.g., for Tests, Refactor, etc.
+          # { key = "<leader>ct"; action = "<cmd>CopilotChatTests<cr>"; desc = "CopilotChat - Tests"; mode = "v"; }
         ];
       };
     };
-
-    options.termguicolors = true;
   };
 }

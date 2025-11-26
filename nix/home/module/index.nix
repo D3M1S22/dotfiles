@@ -5,5 +5,6 @@
     ./starship/starship.nix
     ./alttab/alttab.nix
     ./nvim/nvim.nix
+    ./thunderbird/thunderbird.nix
   ];
 }
