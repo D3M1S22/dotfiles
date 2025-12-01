@@ -5,7 +5,8 @@
     ./starship/starship.nix
     ./alttab/alttab.nix
     ./nvim/nvim.nix
-    ./thunderbird/thunderbird.nix
+    # ./thunderbird/thunderbird.nix
     ./cursor/cursor.nix
+    ./yaak/yaak.nix
   ];
 }

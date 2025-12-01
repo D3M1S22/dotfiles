@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
   environment.systemPackages = with pkgs;
   [
     home-manager
@@ -13,7 +13,6 @@
   system.stateVersion = 6;
   nixpkgs.hostPlatform = "aarch64-darwin";
   nix.enable = false;
-  
   # Keep this from the last fix
   programs.zsh = {
     enable = true;

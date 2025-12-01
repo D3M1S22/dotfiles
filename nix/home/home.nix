@@ -1,12 +1,9 @@
-{ lib, ... }: {
+{ lib, pkgs, ... }: {
   home.username = "demis";
   home.homeDirectory = lib.mkForce "/Users/demis";
   # ✅ must be absolute path
-  
- nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-             "cursor"
-           ];
-         
+
+  nixpkgs.config.allowUnfree = true;
   
   imports = [ ./module/index.nix ];
 
