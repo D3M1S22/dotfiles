@@ -3,12 +3,10 @@
   home.homeDirectory = lib.mkForce "/Users/demis";
   # ✅ must be absolute path
   
-  nixpkgs.config = {
-    # The predicate function checks if the package name is in the allowed list.
-    allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-      "code-cursor"         
-    ];
-  };
+ nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+             "cursor"
+           ];
+         
   
   imports = [ ./module/index.nix ];
 
