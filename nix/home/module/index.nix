@@ -8,5 +8,6 @@
     # ./thunderbird/thunderbird.nix
     ./cursor/cursor.nix
     ./yaak/yaak.nix
+    ./direnv/direnv.nix
   ];
 }
