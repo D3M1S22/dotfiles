@@ -6,5 +6,6 @@
     ./alttab/alttab.nix
     ./nvim/nvim.nix
     ./thunderbird/thunderbird.nix
+    ./cursor/cursor.nix
   ];
 }
