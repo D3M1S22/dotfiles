@@ -30,3 +30,9 @@ local here="${${(%):-%N}:A:h}"
   eval "$(starship init zsh)"
 #
 ####################
+
+##### direnv #####
+#
+  eval "$(direnv hook zsh)"
+#
+#################
