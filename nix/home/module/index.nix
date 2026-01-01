@@ -9,5 +9,6 @@
     ./cursor/cursor.nix
     ./yaak/yaak.nix
     ./direnv/direnv.nix
+    ./colima/colima.nix
   ];
 }
