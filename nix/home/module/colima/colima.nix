@@ -2,6 +2,8 @@
 
 {
   home.packages = with pkgs; [
+    docker
+    docker-compose
     colima
   ];
   # home.sessionVariables = {
