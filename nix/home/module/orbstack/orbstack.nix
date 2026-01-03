@@ -4,7 +4,7 @@
   home.packages = with pkgs; [
     docker
     docker-compose
-    colima
+    orbstack
   ];
   # home.sessionVariables = {
   #   # Optional: set Docker socket path for Colima
