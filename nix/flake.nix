@@ -61,6 +61,12 @@
         ({ ... }: {
           home.stateVersion = "26.05";
         })
+        # Same backup behavior as Darwin: existing files get moved to .preHM before linking.
+        ({ config, ... }: {
+          home.activation.setBackupExt = config.lib.dag.entryBefore [ "linkGeneration" ] ''
+            export HOME_MANAGER_BACKUP_EXT=preHM
+          '';
+        })
         (import (self + /home/home.nix))
       ];
     };
