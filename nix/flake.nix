@@ -58,9 +58,7 @@
       pkgs = nixpkgs.legacyPackages.${system};
       extraSpecialArgs = { inherit dotfiles self nvf; };
       modules = [
-        ({ lib, ... }: {
-          home.username = "demis";
-          home.homeDirectory = lib.mkForce "/home/demis";
+        ({ ... }: {
           home.stateVersion = "26.05";
         })
         (import (self + /home/home.nix))

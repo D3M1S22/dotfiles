@@ -1,7 +1,10 @@
-# Base home-manager config. homeDirectory is overridden per-platform in the flake.
+# Base home-manager config.
 { lib, pkgs, ... }: {
   home.username = "demis";
-  home.homeDirectory = lib.mkForce "/Users/demis";
+  home.homeDirectory = lib.mkForce (
+    if pkgs.stdenv.isDarwin then "/Users/demis"
+    else "/home/demis"
+  );
 
   nixpkgs.config.allowUnfree = true;
 

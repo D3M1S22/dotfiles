@@ -8,7 +8,7 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   system.stateVersion = 6;
-  nixpkgs.hostPlatform = "aarch64-darwin";
+  # hostPlatform is set by nix-darwin from the flake's system (single source of truth)
   nix.enable = false;
 
   programs.zsh = {
