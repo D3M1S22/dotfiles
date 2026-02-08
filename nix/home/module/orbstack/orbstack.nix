@@ -1,5 +1,5 @@
-# Darwin-only: no-op on Linux (avoids using pkgs in index.nix imports → infinite recursion).
-{ config, lib, pkgs, ... }: lib.mkIf pkgs.stdenv.isDarwin {
+# Darwin-only (included only when isDarwin in index.nix).
+{ config, pkgs, ... }: {
   home.packages = with pkgs; [
     # docker
     # docker-compose

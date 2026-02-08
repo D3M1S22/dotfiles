@@ -1,6 +1,5 @@
-# Shared and OS-specific imports. See EXAMPLE-CONDITIONAL-IMPORTS.nix for patterns.
-# Do not use pkgs in `imports` (causes infinite recursion in nix-darwin). Use mkIf inside modules instead.
-{ lib, ... }: {
+# Shared and OS-specific imports. isDarwin comes from flake extraSpecialArgs (avoids pkgs in imports → no recursion).
+{ lib, isDarwin ? false, ... }: {
   imports = [
     ./zsh/zsh.nix
     ./ghostty/ghostty.nix
@@ -10,6 +9,8 @@
     ./cursor/cursor.nix
     ./yaak/yaak.nix
     ./direnv/direnv.nix
+  ]
+  ++ lib.optionals isDarwin [
     ./alttab/alttab.nix
     ./orbstack/orbstack.nix
   ];

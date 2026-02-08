@@ -37,6 +37,7 @@
       else if system == "x86_64-linux" then ./system/linux.nix
       else if system == "aarch64-linux" then ./system/linux.nix
       else abort "Unsupported system: ${system}";
+    pkgs = import nixpkgs { inherit systemConfig; };
 
     mkDarwin = name: system: nix-darwin.lib.darwinSystem {
       inherit system;
@@ -48,7 +49,7 @@
           home-manager.useGlobalPkgs = false;
           home-manager.useUserPackages = false;
           home-manager.backupFileExtension = "preHM";
-          home-manager.extraSpecialArgs = { inherit dotfiles self nvf; };
+          home-manager.extraSpecialArgs = { inherit dotfiles self nvf; isDarwin = pkgs.stdenv.isDarwin; };
           home-manager.users.demis = import (self + /home/home.nix);
         }
       ];
@@ -56,7 +57,7 @@
 
     mkHome = name: system: home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.${system};
-      extraSpecialArgs = { inherit dotfiles self nvf; };
+      extraSpecialArgs = { inherit dotfiles self nvf; isDarwin = false; };
       modules = [
         ({ ... }: {
           home.stateVersion = "26.05";
