@@ -4,9 +4,15 @@ nix-darwin (macOS) + home-manager (shared), flake-based.
 
 ## Requirements
 
-- Nix with flakes: `nix.settings.experimental-features = [ "nix-command" "flakes" ]`
+- **Nix with flakes** – On Linux, flakes are often not enabled by default. Either enable them once (see below) or the scripts set `NIX_CONFIG` so `nix run .#switch-linux` and `nixswitch` work without config changes.
 - **macOS:** [nix-darwin](https://github.com/LnL7/nix-darwin) installed
 - **Linux:** home-manager is provided by the flake (standalone, no NixOS required)
+
+**Enable flakes on Linux (optional, persistent):** create or edit `~/.config/nix/nix.conf` and add:
+```ini
+experimental-features = nix-command flakes
+```
+(On NixOS, set `nix.settings.experimental-features` in your config instead.)
 
 ---
 
@@ -69,7 +75,8 @@ Uses `$HOME/dotfiles/nix` as the flake path by default. Override with:
 cd ~/dotfiles/nix
 nix run nixpkgs#home-manager -- switch --flake .#home-linux
 ```
-Uses home-manager from nixpkgs; Option A uses the version pinned in this flake (recommended).
+Uses home-manager from nixpkgs; Option A uses the version pinned in this flake (recommended). If you see an error about **experimental features** (flakes), enable them as in **Requirements** above, or run:
+`NIX_CONFIG="experimental-features = nix-command flakes" nix run .#switch-linux`
 
 ---
 

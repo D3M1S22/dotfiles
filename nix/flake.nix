@@ -68,6 +68,7 @@
     mkSwitchApp = system: name: let
       hm = home-manager.packages.${system}.default;
       script = nixpkgs.legacyPackages.${system}.writeShellScript "hm-switch-${name}" ''
+        export NIX_CONFIG="experimental-features = nix-command flakes"
         FLAKE="''${NIX_FLAKE_PATH:-$HOME/dotfiles/nix}"
         exec "${hm}/bin/home-manager" switch --flake "$FLAKE#${name}" "$@"
       '';

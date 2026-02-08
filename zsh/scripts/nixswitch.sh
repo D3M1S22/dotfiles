@@ -4,6 +4,7 @@
 set -e
 FLAKE="${NIX_FLAKE_PATH:-$HOME/dotfiles/nix}"
 
+export NIX_CONFIG="experimental-features = nix-command flakes"
 current_system=$(nix eval --impure --raw --expr 'builtins.currentSystem')
 case "$current_system" in
   aarch64-darwin)  config="home-air" ;;

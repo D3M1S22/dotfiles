@@ -4,29 +4,16 @@
 # or into individual modules.
 #
 # Patterns:
-#   1. Conditional imports in index.nix (recommended): only load a module on one OS.
+#   1. Conditional imports in index.nix – AVOID with pkgs (causes infinite recursion under nix-darwin).
 #   2. Conditional options inside a module: enable options only when condition holds.
-#   3. Full conditional module: wrap the whole module in lib.mkIf so it only applies on one OS.
+#   3. Full conditional module (recommended for OS-only): wrap the whole module in lib.mkIf.
 # --------------------------------------------------------------------------------
 
-# --- Pattern 1: Conditional imports (use in home/module/index.nix) ---
+# --- Pattern 1: Conditional imports – AVOID in this repo ---
 #
-# In index.nix you have access to { lib, pkgs, ... }. Use:
-#
-#   imports = [
-#     ./zsh/zsh.nix
-#     ./ghostty/ghostty.nix
-#     # ... shared modules ...
-#   ]
-#   ++ lib.optionals pkgs.stdenv.isDarwin [
-#     ./alttab/alttab.nix
-#     ./orbstack/orbstack.nix
-#   ]
-#   ++ lib.optionals pkgs.stdenv.isLinux [
-#     ./some-linux-only/some-linux-only.nix
-#   ];
-#
-# So: shared list ++ darwin-only list ++ linux-only list.
+# Using pkgs.stdenv.isDarwin in index.nix imports causes "infinite recursion" when
+# building with nix-darwin (pkgs is resolved from config, which depends on imports).
+# Prefer Pattern 3: import the module always and use lib.mkIf inside the module.
 
 # --- Pattern 2: Conditional options inside a single module ---
 #
