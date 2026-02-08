@@ -8,8 +8,9 @@ local here="${${(%):-%N}:A:h}"
     alias zshrc="vi $here/.zshrc"
   fi
   
-# Rebuild nix conf
+# Rebuild nix conf (darwin-only). Use nixswitch for auto darwin/linux.
   alias nixrebuild="sudo darwin-rebuild switch --flake ~/dotfiles/nix#home-air"
+  alias nixswitch="sh $HOME/dotfiles/zsh/scripts/nixswitch.sh"
 #
 ###########################
 
