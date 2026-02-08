@@ -2,8 +2,8 @@
 
 {
   home.packages = with pkgs; [
-    docker
-    docker-compose
+    # docker
+    # docker-compose
     orbstack
   ];
   # home.sessionVariables = {
