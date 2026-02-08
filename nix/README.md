@@ -52,6 +52,27 @@ Use the same config name you added in the flake (`linuxHosts`), e.g. `#home-linu
 
 ---
 
+### First time on Linux (no home-manager installed)
+
+You don’t need to install home-manager first. Use one of these **from your flake directory** (e.g. `~/dotfiles/nix`):
+
+**Option A – Flake app (uses the home-manager version pinned in this flake):**
+```bash
+cd ~/dotfiles/nix
+nix run .#switch-linux
+```
+Uses `$HOME/dotfiles/nix` as the flake path by default. Override with:
+`NIX_FLAKE_PATH=/path/to/your/dotfiles/nix nix run .#switch-linux`
+
+**Option B – One-off nix run (no flake app):**
+```bash
+cd ~/dotfiles/nix
+nix run nixpkgs#home-manager -- switch --flake .#home-linux
+```
+Uses home-manager from nixpkgs; Option A uses the version pinned in this flake (recommended).
+
+---
+
 ### Updating the flake
 
 ```bash
