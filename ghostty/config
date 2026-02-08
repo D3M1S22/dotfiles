@@ -1,7 +1,9 @@
-#style
+# style
 config-file=style
 
-
-#keybindings
+# keybindings
 config-file=keybinds
 
+# OS-specific (optional: only the file for current OS is deployed by Nix)
+config-file=?macos.conf
+config-file=?linux.conf
