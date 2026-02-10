@@ -29,7 +29,7 @@ nixswitch
 ```
 
 - On **macOS** → runs `darwin-rebuild switch --flake <path>#home-air`
-- On **Linux** → runs `home-manager switch --flake <path>#home-linux`
+- On **Linux** → runs `home-manager switch --flake <path>#home-linux -b preHM`
 
 Defined in `zsh/scripts/nixswitch.sh`; alias in `zsh/.zshrc`.
 
@@ -51,32 +51,10 @@ Alias: `nixrebuild` = switch for `#home-air`.
 
 | Action | Command |
 |--------|--------|
-| **Switch** (apply home-manager only) | `home-manager switch --flake ~/dotfiles/nix#home-linux` |
+| **Switch** (apply home-manager only) | `home-manager switch --flake ~/dotfiles/nix#home-linux -b preHM` |
 | Build only | `home-manager build --flake ~/dotfiles/nix#home-linux` |
 
-Use the same config name you added in the flake (`linuxHosts`), e.g. `#home-linux` or `#home-linux-aarch64`.
-
----
-
-### First time on Linux (no home-manager installed)
-
-You don’t need to install home-manager first. Use one of these **from your flake directory** (e.g. `~/dotfiles/nix`):
-
-**Option A – Flake app (uses the home-manager version pinned in this flake):**
-```bash
-cd ~/dotfiles/nix
-nix run .#switch-linux
-```
-Uses `$HOME/dotfiles/nix` as the flake path by default. Override with:
-`NIX_FLAKE_PATH=/path/to/your/dotfiles/nix nix run .#switch-linux`
-
-**Option B – One-off nix run (no flake app):**
-```bash
-cd ~/dotfiles/nix
-nix run nixpkgs#home-manager -- switch --flake .#home-linux
-```
-Uses home-manager from nixpkgs; Option A uses the version pinned in this flake (recommended). If you see an error about **experimental features** (flakes), enable them as in **Requirements** above, or run:
-`NIX_CONFIG="experimental-features = nix-command flakes" nix run .#switch-linux`
+The `-b preHM` flag backs up existing files (e.g. `~/.config/ghostty` → `~/.config/ghostty.preHM`) before linking. `nixswitch` includes it automatically. Use the same config name you added in the flake (`linuxHosts`), e.g. `#home-linux` or `#home-linux-aarch64`.
 
 ---
 

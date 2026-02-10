@@ -61,32 +61,13 @@
         ({ ... }: {
           home.stateVersion = "26.05";
         })
-        # Same backup behavior as Darwin: existing files get moved to .preHM before linking.
-        ({ config, ... }: {
-          home.activation.setBackupExt = config.lib.dag.entryBefore [ "linkGeneration" ] ''
-            export HOME_MANAGER_BACKUP_EXT=preHM
-          '';
-        })
         (import (self + /home/home.nix))
       ];
     };
-    # Run home-manager switch using this flake's home-manager (no prior install).
-    mkSwitchApp = system: name: let
-      hm = home-manager.packages.${system}.default;
-      script = nixpkgs.legacyPackages.${system}.writeShellScript "hm-switch-${name}" ''
-        export NIX_CONFIG="experimental-features = nix-command flakes"
-        FLAKE="''${NIX_FLAKE_PATH:-$HOME/dotfiles/nix}"
-        exec "${hm}/bin/home-manager" switch --flake "$FLAKE#${name}" "$@"
-      '';
-    in { type = "app"; program = "${script}"; };
   in
   {
     darwinConfigurations = lib.mapAttrs mkDarwin darwinHosts;
 
     homeConfigurations = lib.mapAttrs mkHome linuxHosts;
-
-    # First-time Linux (no home-manager installed): nix run .#switch-linux
-    apps.x86_64-linux.switch-linux = mkSwitchApp "x86_64-linux" "home-linux";
-    apps.aarch64-linux.switch-linux = mkSwitchApp "aarch64-linux" "home-linux";
   };
 }

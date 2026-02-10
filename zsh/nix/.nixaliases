@@ -10,6 +10,7 @@ fi
 
 ##### LAUNCH NIX UPDATE #####
 #
- alias nixupdate="sh $HOME/dotfiles/zsh/scripts/nixupdate.sh && nixrebuild"
+# Cross-platform: update flake inputs, then apply config via nixswitch (OS-aware).
+alias nixupdate="sh $HOME/dotfiles/zsh/scripts/nixupdate.sh && nixswitch"
 #
 #############################
