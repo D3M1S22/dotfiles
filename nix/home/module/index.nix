@@ -4,13 +4,13 @@
     ./zsh/zsh.nix
     ./ghostty/ghostty.nix
     ./starship/starship.nix
-    ./nvim/nvim.nix
     # ./thunderbird/thunderbird.nix
     ./cursor/cursor.nix
     ./yaak/yaak.nix
     ./direnv/direnv.nix
   ]
   ++ lib.optionals isDarwin [
+    ./nvim/nvim.nix
     ./alttab/alttab.nix
     ./orbstack/orbstack.nix
   ];
