@@ -3,7 +3,6 @@
   imports = [
     ./zsh/zsh.nix
     ./ghostty/ghostty.nix
-    ./starship/starship.nix
     # ./thunderbird/thunderbird.nix
     ./cursor/cursor.nix
     ./yaak/yaak.nix
@@ -11,6 +10,7 @@
   ]
   ++ lib.optionals isDarwin [
     ./nvim/nvim.nix
+    ./starship/starship.nix
     ./alttab/alttab.nix
     ./orbstack/orbstack.nix
   ];
