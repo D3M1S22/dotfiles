@@ -1,4 +1,9 @@
 { config, dotfiles, ...}: {
   ## loading zsh config
-  home.file.".zshrc".source   = "${dotfiles}/zsh/.zshrc";
+ programs.zsh = {
+    enable = true;
+    initExtra = ''
+      source ${dotfiles}/zsh/.zshrc
+    '';
+  };
 }

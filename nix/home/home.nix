@@ -10,5 +10,7 @@
 
   imports = [ ./module/index.nix ];
 
+  targets.genericLinux.enable = lib.mkIf pkgs.stdenv.isLinux true;
+
   home.stateVersion = "26.05";
 }
