@@ -55,7 +55,10 @@
     };
 
     mkHome = name: system: home-manager.lib.homeManagerConfiguration {
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
       extraSpecialArgs = { inherit dotfiles self nvf; isDarwin = false; };
       modules = [
         ({ ... }: {
