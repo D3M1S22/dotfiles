@@ -22,5 +22,5 @@ if [[ "$current_system" == *"-darwin" ]]; then
   exec sudo darwin-rebuild switch --flake "$FLAKE#$config"
 else
   echo "Linux detected ($current_system) -> home-manager --flake $FLAKE#$config -b preHM"
-  exec home-manager switch --flake "$FLAKE#$config" -b preHM
+  exec home-manager switch --flake "$FLAKE#$config" -b preHM --impure
 fi
