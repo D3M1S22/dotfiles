@@ -9,7 +9,7 @@
   xdg.desktopEntries.yaak = lib.mkIf pkgs.stdenv.isLinux {
     name = "Yaak";
     genericName = "API Client";
-    exec = "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ${pkgs.yaak}/bin/yaak %U";
+    exec = "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ${pkgs.yaak}/bin/yaak-app %U";
     icon = "yaak";
     terminal = false;
     categories = [ "Development" "Utility" ];
