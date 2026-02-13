@@ -65,7 +65,7 @@
 
         overlays = [ nixgl.overlay ];
       };
-      extraSpecialArgs = { inherit dotfiles self nvf; isDarwin = false; };
+      extraSpecialArgs = { inherit dotfiles self nvf; isLinux = true; };
       modules = [
         ({ ... }: {
           home.stateVersion = "26.05";

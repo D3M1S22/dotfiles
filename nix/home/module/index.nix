@@ -1,5 +1,5 @@
 # Shared and OS-specific imports. isDarwin comes from flake extraSpecialArgs (avoids pkgs in imports → no recursion).
-{ lib, isDarwin ? false, ... }: {
+{ lib, isDarwin ? false, isLinux ? false, ... }: {
   imports = [
     ./zsh/zsh.nix
     ./ghostty/ghostty.nix
