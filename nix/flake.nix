@@ -52,7 +52,7 @@
           home-manager.useGlobalPkgs = false;
           home-manager.useUserPackages = false;
           home-manager.backupFileExtension = "preHM";
-          home-manager.extraSpecialArgs = { inherit dotfiles self nvf; isDarwin = true; isLinux = false; isGenericLinux = false; };
+          home-manager.extraSpecialArgs = { inherit dotfiles self nvf inputs; isDarwin = true; isLinux = false; isGenericLinux = false; };
           home-manager.users.demis = import (self + /home/home.nix);
         }
       ];
@@ -65,7 +65,7 @@
 
         overlays = [ nixgl.overlay ];
       };
-      extraSpecialArgs = { inherit dotfiles self nvf; isLinux = true; isDarwin = false;};
+      extraSpecialArgs = { inherit dotfiles self nvf inputs; isLinux = true; isDarwin = false; };
       modules = [
         ({ ... }: {
           home.stateVersion = "26.05";
