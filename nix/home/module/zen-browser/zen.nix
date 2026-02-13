@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }: {
+{ pkgs, inputs, lib, ... }: {
 
   # Import the Home Manager module from the flake
   imports = [ inputs.zen-browser.homeManagerModules.default ];
