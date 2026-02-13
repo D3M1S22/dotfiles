@@ -1,7 +1,7 @@
 { pkgs, inputs, lib, ... }: {
 
   # Import the Home Manager module from the flake
-  imports = [ inputs.zen-browser.homeManagerModules.default ];
+  imports = [ inputs.zen-browser.homeModules.twilight ];
 
   programs.zen-browser = {
     enable = true;
