@@ -13,5 +13,8 @@
     ./starship/starship.nix
     ./alttab/alttab.nix
     ./orbstack/orbstack.nix
+  ]
+  ++ lib.optionals isLinux [
+    ./zen-browser/zen.nix
   ];
 }

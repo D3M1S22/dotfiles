@@ -14,10 +14,12 @@
       flake = false;
     };
 
+    zen-browser.url = "github:0xc000022070/zen-browser-flake";
+
     nvf.url = "github:notashelf/nvf";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, dotfiles, nvf }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, dotfiles, nvf, zen-browser }:
   let
     lib = nixpkgs.lib;
 
