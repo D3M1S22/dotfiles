@@ -14,12 +14,14 @@
       flake = false;
     };
 
+    nixgl.url = "github:nix-community/nixGL";
+
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
 
     nvf.url = "github:notashelf/nvf";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, dotfiles, nvf, zen-browser }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, dotfiles, nvf, zen-browser, nixgl }:
   let
     lib = nixpkgs.lib;
 
@@ -60,6 +62,8 @@
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
+
+        overlays = [ nixgl.overlay ];
       };
       extraSpecialArgs = { inherit dotfiles self nvf; isDarwin = false; };
       modules = [
