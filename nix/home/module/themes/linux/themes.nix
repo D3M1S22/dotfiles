@@ -27,4 +27,8 @@
     '';
   };
 
+  xdg.configFile."waybar/style.css" = lib.mkIf pkgs.stdenv.isLinux {
+    source = "${dotfiles}/omarchy-style/waybar/waybar.css";
+  };
+
 }
