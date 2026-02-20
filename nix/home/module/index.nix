@@ -16,6 +16,6 @@
   ]
   ++ lib.optionals isLinux [
     ./zen-browser/zen.nix
-    ./themes/linux/themes.nix
+    # ./themes/linux/themes.nix
   ];
 }
