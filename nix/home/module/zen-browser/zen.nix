@@ -23,7 +23,8 @@
     name = "Zen Twilight";
     genericName = "Web Browser";
     # Point to the TWILIGHT binary wrapped in nixGL
-    exec = "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ${inputs.zen-browser.packages."${pkgs.system}".twilight}/bin/zen %u";
+    exec = "sh -c 'WAYLAND_DISPLAY=$WAYLAND_DISPLAY DISPLAY=$DISPLAY ${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ${inputs.zen-browser.packages."${pkgs.system}".twilight}/bin/zen %u'";
+
     icon = "zen-twilight";
     terminal = false;
     categories = [ "Network" "WebBrowser" ];
