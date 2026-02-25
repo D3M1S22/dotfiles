@@ -6,7 +6,6 @@
     nixgl.auto.nixGLDefault
   ];
 
-  # Create a custom desktop entry that wraps the clean command in nixGL
   xdg.desktopEntries."android-studio" = lib.mkIf pkgs.stdenv.isLinux {
     name = "Android Studio";
     genericName = "Integrated Development Environment";
@@ -14,6 +13,10 @@
     icon = "android-studio";
     terminal = false;
     categories = [ "Development" "IDE" ];
-    startupWMClass = "jetbrains-studio"; # Helps Wayland group the window correctly
+    
+    # Custom .desktop properties go in the settings block!
+    settings = {
+      StartupWMClass = "jetbrains-studio";
+    };
   };
 }
