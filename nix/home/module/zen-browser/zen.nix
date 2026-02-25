@@ -1,66 +1,29 @@
-{ pkgs, inputs, lib, ... }:
+{ pkgs, inputs, lib, ... }: {
 
-let
-  zen-wrapper = pkgs.writeShellScriptBin "zen-nixgl-wrapper" ''
-    #!/usr/bin/env bash
-    
-    # 1. Force EVERYTHING (output and errors) to be written to a log file
-    exec > /tmp/zen-debug.log 2>&1
-    set -x
-
-    echo "--- LAUNCHING ZEN VIA WALKER/UWSM ---"
-    echo "Current Date: $(date)"
-    echo "Initial WAYLAND_DISPLAY: $WAYLAND_DISPLAY"
-    echo "Initial DISPLAY: $DISPLAY"
-    echo "Initial XDG_RUNTIME_DIR: $XDG_RUNTIME_DIR"
-
-    export PATH="/run/current-system/sw/bin:/usr/bin:/bin:$PATH"
-
-    # Attempt Wayland recovery
-    if [ -z "$WAYLAND_DISPLAY" ]; then
-      echo "WAYLAND_DISPLAY was missing. Hunting for socket..."
-      for s in /run/user/$(id -u)/wayland-*; do
-        if [ -S "$s" ]; then
-          export WAYLAND_DISPLAY=$(basename "$s")
-          echo "Found Wayland socket: $WAYLAND_DISPLAY"
-          break
-        fi
-      done
-    fi
-
-    # Attempt X11 recovery
-    if [ -z "$DISPLAY" ]; then
-      export DISPLAY=":0"
-      echo "Set default DISPLAY: $DISPLAY"
-    fi
-
-    echo "--- ENVIRONMENT READY ---"
-    echo "Executing nixGL Zen..."
-    
-    # Run the browser
-    exec ${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ${inputs.zen-browser.packages."${pkgs.system}".twilight}/bin/zen "$@"
-  '';
-in
-{
+  # Import the Home Manager module from the flake
   imports = [ inputs.zen-browser.homeModules.twilight ];
 
   programs.zen-browser = {
     enable = true;
+
+    # Now you can use the cool features from the docs!
     policies = {
       DisableAppUpdate = true;
       DisableTelemetry = true;
+      # more and more
     };
   };
 
-  home.packages = [ 
-    pkgs.nixgl.auto.nixGLDefault 
-    zen-wrapper
-  ];
+  home.packages = [ pkgs.nixgl.auto.nixGLDefault ];
 
+  # 2. Create a custom launcher that wraps Zen with nixGL.
+  #    This overrides the default icon in your app launcher.
+  # We name this "zen-twilight" to override the default broken one
   xdg.desktopEntries."zen-twilight" = {
     name = "Zen Twilight";
     genericName = "Web Browser";
-    exec = "${zen-wrapper}/bin/zen-nixgl-wrapper %u";
+    # Point to the TWILIGHT binary wrapped in nixGL
+    exec = "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ${inputs.zen-browser.packages."${pkgs.system}".twilight}/bin/zen-twilight %u";
     icon = "zen-twilight";
     terminal = false;
     categories = [ "Network" "WebBrowser" ];
