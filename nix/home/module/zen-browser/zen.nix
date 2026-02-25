@@ -1,30 +1,46 @@
-{ pkgs, inputs, lib, ... }: {
+{ pkgs, inputs, lib, ... }:
 
-  # Import the Home Manager module from the flake
+let
+  # A robust wrapper script that bypasses .desktop validation errors
+  # and ensures Wayland variables are always present even if Walker drops them.
+  zen-wrapper = pkgs.writeShellScriptBin "zen-nixgl-wrapper" ''
+    #!/usr/bin/env bash
+    
+    # If Walker/UWSM loses the display variables, fetch them directly from systemd
+    if [ -z "$WAYLAND_DISPLAY" ]; then
+      export WAYLAND_DISPLAY=$(systemctl --user show-environment | grep '^WAYLAND_DISPLAY=' | cut -d= -f2)
+    fi
+    if [ -z "$DISPLAY" ]; then
+      export DISPLAY=$(systemctl --user show-environment | grep '^DISPLAY=' | cut -d= -f2)
+    fi
+
+    # Launch Zen with nixGL and pass any arguments (like URLs) using "$@"
+    exec ${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ${inputs.zen-browser.packages."${pkgs.system}".twilight}/bin/zen "$@"
+  '';
+in
+{
   imports = [ inputs.zen-browser.homeModules.twilight ];
 
   programs.zen-browser = {
     enable = true;
-
-    # Now you can use the cool features from the docs!
     policies = {
       DisableAppUpdate = true;
       DisableTelemetry = true;
-      # more and more
     };
   };
 
-  home.packages = [ pkgs.nixgl.auto.nixGLDefault ];
+  home.packages = [
+    pkgs.nixgl.auto.nixGLDefault
+    zen-wrapper
+  ];
 
-  # 2. Create a custom launcher that wraps Zen with nixGL.
-  #    This overrides the default icon in your app launcher.
-  # We name this "zen-twilight" to override the default broken one
   xdg.desktopEntries."zen-twilight" = {
     name = "Zen Twilight";
     genericName = "Web Browser";
-    # Point to the TWILIGHT binary wrapped in nixGL
-    exec = "sh -c 'WAYLAND_DISPLAY=$WAYLAND_DISPLAY DISPLAY=$DISPLAY ${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ${inputs.zen-browser.packages.${pkgs.system}.twilight}/bin/zen %u'";
-
+    
+    # Point directly to our clean wrapper script
+    exec = "${zen-wrapper}/bin/zen-nixgl-wrapper %u";
+    
     icon = "zen-twilight";
     terminal = false;
     categories = [ "Network" "WebBrowser" ];
