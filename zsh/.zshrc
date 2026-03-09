@@ -37,3 +37,16 @@ local here="${${(%):-%N}:A:h}"
   eval "$(direnv hook zsh)"
 #
 #################
+
+reboot-win() {
+    # Find the boot number for Windows
+    WIN_BOOTNUM=$(efibootmgr | grep -i "Windows Boot Manager" | grep -oP 'Boot\K[0-9A-Fa-f]{4}')
+
+    # Check if we actually found a number
+    if [ -n "$WIN_BOOTNUM" ]; then
+        echo "Found Windows at Boot$WIN_BOOTNUM. Rebooting..."
+        sudo efibootmgr -n "$WIN_BOOTNUM" && reboot
+    else
+        echo "Error: Could not find 'Windows Boot Manager' in UEFI entries."
+    fi
+}
