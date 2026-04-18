@@ -15,6 +15,7 @@
     ./orbstack/orbstack.nix
   ]
   ++ lib.optionals isLinux [
+    ./nordvpn/nordvpn.nix
     ./zen-browser/zen.nix
     ./android-studio/android-studio.nix
     # ./themes/linux/themes.nix
