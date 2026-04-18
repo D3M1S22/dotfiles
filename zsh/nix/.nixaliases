@@ -14,3 +14,13 @@ fi
 alias nixupdate="sh $HOME/dotfiles/zsh/scripts/nixupdate.sh && nixswitch"
 #
 #############################
+
+##### LAUNCH WGNORD #####
+#
+# Linux only
+if [[ "$(uname)" == "Linux" ]]; then
+    alias wgnord='sudo env "PATH=$PATH" wgnord'
+fi
+#
+#
+#########################
