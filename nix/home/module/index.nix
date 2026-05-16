@@ -9,7 +9,7 @@
     ./direnv/direnv.nix
   ]
   ++ lib.optionals isDarwin [
-    ./nvim/nvim.nix
+    # ./nvim/nvim.nix
     ./starship/starship.nix
     ./alttab/alttab.nix
     ./orbstack/orbstack.nix
