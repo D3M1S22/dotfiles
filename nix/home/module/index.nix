@@ -21,6 +21,6 @@
     ./nordvpn/nordvpn.nix #nordvpn
     ./zen-browser/zen.nix #zen
     ./android-studio/android-studio.nix #android-studio
-    # ./themes/linux/themes.nix
+    # ./themes/linux/themes.nix #themes
   ];
 }

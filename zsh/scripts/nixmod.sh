@@ -67,21 +67,21 @@ EOF
   rm)
     MODULE=$2
     # Keep lines that do NOT contain the tag
-    awk -v tag="#($MODULE)" 'index($0, tag) == 0' "$FILE" > tmp && mv tmp "$FILE"
+    awk -v tag="#$MODULE" 'index($0, tag) == 0' "$FILE" > tmp && mv tmp "$FILE"
     echo "Removed $MODULE from imports."
     ;;
 
   comment)
     MODULE=$2
     # Prepend a '#' to the line if it contains the tag and isn't already commented
-    awk -v tag="#($MODULE)" 'index($0, tag) > 0 && $0 !~ /^[ \t]*#/ { sub(/^[ \t]*/, "&# ") } 1' "$FILE" > tmp && mv tmp "$FILE"
+    awk -v tag="#$MODULE" 'index($0, tag) > 0 && $0 !~ /^[ \t]*#/ { sub(/^[ \t]*/, "&# ") } 1' "$FILE" > tmp && mv tmp "$FILE"
     echo "Commented out $MODULE."
     ;;
 
   uncomment)
     MODULE=$2
     # Strip the leading '#' from the line if it contains the tag
-    awk -v tag="#($MODULE)" 'index($0, tag) > 0 && $0 ~ /^[ \t]*#/ { sub(/#[ \t]*/, "") } 1' "$FILE" > tmp && mv tmp "$FILE"
+    awk -v tag="#$MODULE" 'index($0, tag) > 0 && $0 ~ /^[ \t]*#/ { sub(/#[ \t]*/, "") } 1' "$FILE" > tmp && mv tmp "$FILE"
     echo "Uncommented $MODULE."
     ;;
 
