@@ -15,6 +15,13 @@ alias nixupdate="sh $HOME/dotfiles/zsh/scripts/nixupdate.sh && nixswitch"
 #
 #############################
 
+##### NIX MODULE EDIT #####
+#
+# Cross-platform: edit a nix module in the nixpkgs repo.
+alias nixmod="sh $HOME/dotfiles/zsh/scripts/nixmod.sh"
+#
+###########################
+
 ##### LAUNCH WGNORD #####
 #
 # Linux only
