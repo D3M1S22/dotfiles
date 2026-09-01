@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
-# Run this script from the root of your dotfiles repository
-FILE="$HOME/dotfiles/nix/home/module/index.nix"
+# Base directory setup ensures this works from any working directory
+BASE_DIR="$HOME/dotfiles"
+FILE="$BASE_DIR/nix/home/module/index.nix"
 
 if [ ! -f "$FILE" ]; then
-  echo "Error: Cannot find $FILE. Please run this from the root of your dotfiles."
+  echo "Error: Cannot find $FILE."
   exit 1
 fi
 
@@ -27,10 +28,10 @@ case $COMMAND in
       *) echo "Invalid target. Use 'mac', 'linux', or 'both'."; exit 1 ;;
     esac
 
-    # Define paths based on your standard repository structure
-    MODULE_DIR="nix/home/module/$MODULE"
+    # Paths updated to use absolute base directory and correct relative imports
+    MODULE_DIR="$BASE_DIR/nix/home/module/$MODULE"
     MODULE_FILE="$MODULE_DIR/$MODULE.nix"
-    IMPORT_PATH="./module/$MODULE/$MODULE.nix"
+    IMPORT_PATH="./$MODULE/$MODULE.nix"
 
     # 1. Create directory and template file if they do not exist
     if [ ! -f "$MODULE_FILE" ]; then
@@ -51,7 +52,8 @@ EOF
     fi
 
     # 2. Append the import path and the tag on the line below the marker
-    if ! grep -q "#$MODULE" "$FILE"; then
+    # The $ enforces end-of-line matching so "gh" won't match "ghostty"
+    if ! grep -qE "#${MODULE}$" "$FILE"; then
       awk -v marker="$MARKER" -v mod="    $IMPORT_PATH #$MODULE" '
         $0 ~ marker {print; print mod; next} 1
       ' "$FILE" > tmp && mv tmp "$FILE"
@@ -66,22 +68,20 @@ EOF
 
   rm)
     MODULE=$2
-    # Keep lines that do NOT contain the tag
-    awk -v tag="#$MODULE" 'index($0, tag) == 0' "$FILE" > tmp && mv tmp "$FILE"
+    # Swapped index() for a regex match to enforce the end-of-line boundary
+    awk -v tag="#${MODULE}$" '$0 !~ tag' "$FILE" > tmp && mv tmp "$FILE"
     echo "Removed $MODULE from imports."
     ;;
 
   comment)
     MODULE=$2
-    # Prepend a '#' to the line if it contains the tag and isn't already commented
-    awk -v tag="#$MODULE" 'index($0, tag) > 0 && $0 !~ /^[ \t]*#/ { sub(/^[ \t]*/, "&# ") } 1' "$FILE" > tmp && mv tmp "$FILE"
+    awk -v tag="#${MODULE}$" '$0 ~ tag && $0 !~ /^[ \t]*#/ { sub(/^[ \t]*/, "&# ") } 1' "$FILE" > tmp && mv tmp "$FILE"
     echo "Commented out $MODULE."
     ;;
 
   uncomment)
     MODULE=$2
-    # Strip the leading '#' from the line if it contains the tag
-    awk -v tag="#$MODULE" 'index($0, tag) > 0 && $0 ~ /^[ \t]*#/ { sub(/#[ \t]*/, "") } 1' "$FILE" > tmp && mv tmp "$FILE"
+    awk -v tag="#${MODULE}$" '$0 ~ tag && $0 ~ /^[ \t]*#/ { sub(/#[ \t]*/, "") } 1' "$FILE" > tmp && mv tmp "$FILE"
     echo "Uncommented $MODULE."
     ;;
 
