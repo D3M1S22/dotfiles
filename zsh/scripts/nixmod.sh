@@ -51,8 +51,8 @@ EOF
     fi
 
     # 2. Append the import path and the tag on the line below the marker
-    if ! grep -q "#($MODULE)" "$FILE"; then
-      awk -v marker="$MARKER" -v mod="    $IMPORT_PATH #($MODULE)" '
+    if ! grep -q "#$MODULE" "$FILE"; then
+      awk -v marker="$MARKER" -v mod="    $IMPORT_PATH #$MODULE" '
         $0 ~ marker {print; print mod; next} 1
       ' "$FILE" > tmp && mv tmp "$FILE"
       echo "Added $MODULE to $TARGET in $FILE."
