@@ -11,6 +11,7 @@
   ]
   ++ lib.optionals isDarwin [
     # MAC_MODULES
+    ./gh/gh.nix #gh
     # ./nvim/nvim.nix #nvim
     ./starship/starship.nix #starship
     ./alttab/alttab.nix #alttab
