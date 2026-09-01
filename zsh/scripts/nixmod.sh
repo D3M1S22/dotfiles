@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Run this script from the root of your dotfiles repository
-FILE="nix/home/home.nix"
+FILE="$HOME/dotfiles/nix/home/module/index.nix"
 
 if [ ! -f "$FILE" ]; then
   echo "Error: Cannot find $FILE. Please run this from the root of your dotfiles."
@@ -40,7 +40,9 @@ case $COMMAND in
 
 {
   # Configuration for $MODULE
-  
+  home.packages = with pkgs; [
+    $MODULE
+  ];
 }
 EOF
       echo "Created template at $MODULE_FILE"
