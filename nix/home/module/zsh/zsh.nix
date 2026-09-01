@@ -2,7 +2,7 @@
   ## loading zsh config
  programs.zsh = {
     enable = true;
-    initExtra = ''
+    initContent = ''
       source ${dotfiles}/zsh/.zshrc
     '';
   };

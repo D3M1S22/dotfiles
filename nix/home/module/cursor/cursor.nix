@@ -2,12 +2,12 @@
   
   home.packages = with pkgs; [
     code-cursor 
-  ] ++ lib.optionals pkgs.stdenv.isLinux [
+  ] ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
     nixgl.auto.nixGLDefault
   ]; 
 
   # Create a custom desktop entry that wraps the command
-  xdg.desktopEntries.cursor = lib.mkIf pkgs.stdenv.isLinux {
+  xdg.desktopEntries.cursor = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
     name = "Cursor";
     genericName = "Text Editor";
     exec = "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ${pkgs.code-cursor}/bin/cursor %F";

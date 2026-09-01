@@ -2,11 +2,11 @@
 {
   home.packages = with pkgs; [
     yaak  
-  ] ++ lib.optionals pkgs.stdenv.isLinux [
+  ] ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [
     nixgl.auto.nixGLDefault
   ];
 
-  xdg.desktopEntries.yaak = lib.mkIf pkgs.stdenv.isLinux {
+  xdg.desktopEntries.yaak = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
     name = "Yaak";
     genericName = "API Client";
     exec = "${pkgs.nixgl.auto.nixGLDefault}/bin/nixGL ${pkgs.yaak}/bin/yaak-app %U";

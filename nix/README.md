@@ -103,13 +103,13 @@ Add more hosts there (e.g. `home-air-intel`, `home-linux-aarch64`) and use the s
 
 ## Conditional modules (Darwin vs Linux)
 
-Some home-manager modules are macOS-only (e.g. alttab, orbstack). They are gated in `home/module/index.nix` using `lib.optionals pkgs.stdenv.isDarwin [ ... ]`.
+Some home-manager modules are macOS-only (e.g. alttab, orbstack). They are gated in `home/module/index.nix` using `lib.optionals pkgs.stdenv.hostPlatform.isDarwin [ ... ]`.
 
 See **`home/module/EXAMPLE-CONDITIONAL-IMPORTS.nix`** for:
 
 1. Conditional imports in `index.nix` (Darwin-only / Linux-only lists).
 2. Conditional options inside a module (`lib.mkIf`, `lib.optionals`).
-3. Making a whole module apply only on one OS (`lib.mkIf pkgs.stdenv.isDarwin { ... }`).
+3. Making a whole module apply only on one OS (`lib.mkIf pkgs.stdenv.hostPlatform.isDarwin { ... }`).
 
 ---
 

@@ -1,5 +1,5 @@
 { config, dotfiles, lib, pkgs, ... }: {
-  home.packages = lib.mkIf pkgs.stdenv.isDarwin (with pkgs; [ ghostty-bin ]);
+  home.packages = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin (with pkgs; [ ghostty-bin ]);
 
   # Map the static files explicitly
   xdg.configFile."ghostty/config".source = "${dotfiles}/ghostty/config";
@@ -8,7 +8,7 @@
   
   # Map the platform-specific file conditionally
   xdg.configFile."ghostty/platform.conf".source = 
-    if pkgs.stdenv.isDarwin 
+    if pkgs.stdenv.hostPlatform.isDarwin 
     then "${dotfiles}/ghostty/macos.conf" 
     else "${dotfiles}/ghostty/linux.conf";
 }

@@ -11,7 +11,7 @@
 
 # --- Pattern 1: Conditional imports – AVOID in this repo ---
 #
-# Using pkgs.stdenv.isDarwin in index.nix imports causes "infinite recursion" when
+# Using pkgs.stdenv.hostPlatform.isDarwin in index.nix imports causes "infinite recursion" when
 # building with nix-darwin (pkgs is resolved from config, which depends on imports).
 # Prefer Pattern 3: import the module always and use lib.mkIf inside the module.
 
@@ -24,11 +24,11 @@
 #   home.packages = with pkgs; [
 #     git
 #   ]
-#   ++ lib.optionals pkgs.stdenv.isDarwin [ orbstack ]
-#   ++ lib.optionals pkgs.stdenv.isLinux [ podman ];
+#   ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin [ orbstack ]
+#   ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [ podman ];
 #
 #   # Or use lib.mkIf for a whole block:
-#   programs.alacritty.settings = lib.mkIf pkgs.stdenv.isDarwin {
+#   programs.alacritty.settings = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
 #     window.decorations = "full";
 #   };
 # }
@@ -39,7 +39,7 @@
 # when the file is only for one OS):
 #
 # { config, lib, pkgs, ... }:
-# lib.mkIf pkgs.stdenv.isDarwin {
+# lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
 #   home.packages = with pkgs; [ alt-tab-macos ];
 # }
 #
