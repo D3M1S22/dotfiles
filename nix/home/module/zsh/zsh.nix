@@ -12,7 +12,7 @@
       fi
       
       # Usa curl per scaricare lo script RAW da GitHub e passargli l'argomento
-      curl -sL https://raw.githubusercontent.com/demis/ai-agent-rules/main/scripts/pull-rules.sh | bash -s -- "$1"
+      curl -sL curl -sL https://raw.githubusercontent.com/d3m1s22/ai-agent-rules/main/scripts/pull-rules.sh | bash -s -- "$1"
     '')
   ];
 
