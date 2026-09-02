@@ -19,7 +19,7 @@ verify_package() {
   echo "🔍 Querying NixOS search API for alternatives..."
 
   # 2. Query the official NixOS search API (instant and accurate)
-  local api_url="https://search.nixos.org/backend/es-0001/_search"
+  local api_url="https://search.nixos.org/backend/latest-51-nixos-unstable/_search"
   local query_payload='{
     "size": 5,
     "query": {
