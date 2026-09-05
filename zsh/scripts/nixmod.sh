@@ -18,15 +18,48 @@ verify_package() {
   echo -e "⚠️  Warning: Exact package '$MODULE' not found."
   echo "🔍 Searching for similar packages..."
 
-  # 2. Clean JSON parsing to get exact short package names (e.g. aubio, augeas)
+  # 2. Strict Search: Ensure the package name *itself* contains the query string
   local suggestions=()
   if command -v jq &>/dev/null; then
-    mapfile -t suggestions < <(nix search nixpkgs "$MODULE" --json 2>/dev/null | jq -r 'keys[]' 2>/dev/null | awk -F'.' '{print $NF}' | grep -v 'packages' | head -n 5)
+    mapfile -t suggestions < <(
+      nix search nixpkgs "$MODULE" --json 2>/dev/null | \
+      jq -r 'keys[]' 2>/dev/null | \
+      awk -F'.' -v mod="$MODULE" '{
+        pkg = tolower($NF);
+        m = tolower(mod);
+        if (index(pkg, m) > 0) print $NF;
+      }' | \
+      awk '!seen[$0]++'
+    )
   fi
 
   # Fallback if jq isn't available
   if [ ${#suggestions[@]} -eq 0 ]; then
-    mapfile -t suggestions < <(nix search nixpkgs "$MODULE" 2>/dev/null | grep "^\* " | head -n 5 | awk '{print $2}' | awk -F'.' '{print $NF}')
+    mapfile -t suggestions < <(
+      nix search nixpkgs "$MODULE" --json 2>/dev/null | \
+      grep "^\* " | \
+      awk '{print $2}' | \
+      awk -F'.' -v mod="$MODULE" '{
+        pkg = tolower($NF);
+        m = tolower(mod);
+        if (index(pkg, m) > 0) print $NF;
+      }' | \
+      awk '!seen[$0]++'
+    )
+  fi
+
+  # Prioritize true prefix matches first, then sort by name length
+  if [ ${#suggestions[@]} -gt 0 ]; then
+    mapfile -t suggestions < <(
+      printf '%s\n' "${suggestions[@]}" | \
+      awk -v mod="$MODULE" '{
+        pkg = tolower($0);
+        m = tolower(mod);
+        if (pkg ~ "^" m) print "0:" length($0) ":" $0;
+        else print "1:" length($0) ":" $0;
+      }' | \
+      sort -t':' -k1,1n -k2,2n | cut -d':' -f3 | head -n 5
+    )
   fi
 
   # If still no suggestions exist, fallback to a simple Y/N prompt
