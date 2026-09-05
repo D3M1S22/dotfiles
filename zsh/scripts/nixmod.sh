@@ -18,13 +18,15 @@ verify_package() {
   echo -e "⚠️  Warning: Exact package '$MODULE' not found."
   echo "🔍 Searching for similar packages..."
 
-  # 2. Optimized & Fast Nix Search
-  # We target the package identifier space directly to skip heavy description parsing
-  local suggestions=($(nix search nixpkgs "#$MODULE" --json 2>/dev/null | jq -r 'keys[]' 2>/dev/null | sed 's/legacyPackages\.[^.]*\.//' | head -n 5))
+  # 2. Clean JSON parsing to get exact short package names (e.g. aubio, augeas)
+  local suggestions=()
+  if command -v jq &>/dev/null; then
+    mapfile -t suggestions < <(nix search nixpkgs "$MODULE" --json 2>/dev/null | jq -r 'keys[]' 2>/dev/null | awk -F'.' '{print $NF}' | grep -v 'packages' | head -n 5)
+  fi
 
-  # Fallback if jq isn't used or json parsing yields nothing, using standard text output
+  # Fallback if jq isn't available
   if [ ${#suggestions[@]} -eq 0 ]; then
-    suggestions=($(nix search nixpkgs "$MODULE" 2>/dev/null | grep "^\* " | head -n 5 | awk '{print $2}' | sed 's/.*#//'))
+    mapfile -t suggestions < <(nix search nixpkgs "$MODULE" 2>/dev/null | grep "^\* " | head -n 5 | awk '{print $2}' | awk -F'.' '{print $NF}')
   fi
 
   # If still no suggestions exist, fallback to a simple Y/N prompt
