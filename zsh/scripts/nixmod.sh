@@ -9,37 +9,25 @@ COMMAND=$1
 verify_package() {
   echo "🔍 Verifying '$MODULE'..."
 
-  # 1. Fast Path: Exact check via Nix evaluation
+  # 1. Fast Path: Instant exact match evaluation
   if nix eval "nixpkgs#$MODULE.name" >/dev/null 2>&1; then
     echo "✅ Package '$MODULE' found in nixpkgs!"
     return 0
   fi
 
   echo -e "⚠️  Warning: Exact package '$MODULE' not found."
-  echo "🔍 Querying NixOS search API for alternatives..."
+  echo "🔍 Searching for similar packages..."
 
-  # 2. Query the official NixOS search API (instant and accurate)
-  local api_url="https://search.nixos.org/backend/latest-51-nixos-unstable/_search"
-  local query_payload='{
-    "size": 5,
-    "query": {
-      "match": {
-        "package_pname": "'"$MODULE"'"
-      }
-    }
-  }'
+  # 2. Optimized & Fast Nix Search
+  # We target the package identifier space directly to skip heavy description parsing
+  local suggestions=($(nix search nixpkgs "#$MODULE" --json 2>/dev/null | jq -r 'keys[]' 2>/dev/null | sed 's/legacyPackages\.[^.]*\.//' | head -n 5))
 
-  # Fetch suggestions using curl and parse names using grep/sed (or jq if available)
-  local raw_results
-  raw_results=$(curl -s -X POST "$api_url" -H "Content-Type: application/json" -d "$query_payload" 2>/dev/null)
+  # Fallback if jq isn't used or json parsing yields nothing, using standard text output
+  if [ ${#suggestions[@]} -eq 0 ]; then
+    suggestions=($(nix search nixpkgs "$MODULE" 2>/dev/null | grep "^\* " | head -n 5 | awk '{print $2}' | sed 's/.*#//'))
+  fi
 
-  # Extract package names from the JSON response safely without heavy dependencies
-  local suggestions=()
-  while IFS= read -r line; do
-    [[ -n "$line" ]] && suggestions+=("$line")
-  done < <(echo "$raw_results" | grep -o '"package_pname":"[^"]*"' | cut -d'"' -f4 | head -n 5)
-
-  # If no suggestions found via API, fallback to custom prompt
+  # If still no suggestions exist, fallback to a simple Y/N prompt
   if [ ${#suggestions[@]} -eq 0 ]; then
     echo "  (No similar packages found)"
     read -p "Do you want to create the custom module '$MODULE' anyway? [y/N]: " confirm
@@ -81,7 +69,7 @@ verify_package() {
       fi
     elif [[ $key == "" ]]; then
       break
-    endif
+    fi
 
     echo -en "\033[${num_options}A"
   done
