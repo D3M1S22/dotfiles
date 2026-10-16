@@ -7,7 +7,7 @@
     ./cursor/cursor.nix
     ./yaak/yaak.nix
     ./direnv/direnv.nix
-    ./tailscale/tailscale.nix
+    ./tailscale/tailscale.nix #tailscale
   ]
   ++ lib.optionals isDarwin [
     # MAC_MODULES
