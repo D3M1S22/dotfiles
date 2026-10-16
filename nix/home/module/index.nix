@@ -1,13 +1,13 @@
 # Shared and OS-specific imports. isDarwin comes from flake extraSpecialArgs (avoids pkgs in imports → no recursion).
 { lib, isDarwin ? false, isLinux ? false, ... }: {
   imports = [
-    # UNIVERSAL_MODULES
-    ./zsh/zsh.nix #zsh
-    ./ghostty/ghostty.nix #ghostty
-    # ./thunderbird/thunderbird.nix #thunderbird
-    ./cursor/cursor.nix #cursor
-    ./yaak/yaak.nix #yaak
-    ./direnv/direnv.nix #direnv
+    ./zsh/zsh.nix
+    ./ghostty/ghostty.nix
+    # ./thunderbird/thunderbird.nix
+    ./cursor/cursor.nix
+    ./yaak/yaak.nix
+    ./direnv/direnv.nix
+    ./tailscale/tailscale.nix
   ]
   ++ lib.optionals isDarwin [
     # MAC_MODULES
