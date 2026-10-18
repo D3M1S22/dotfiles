@@ -50,3 +50,12 @@ reboot-win() {
         echo "Error: Could not find 'Windows Boot Manager' in UEFI entries."
     fi
 }
+
+
+###### local bin source ######
+#
+
+echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
+
+#
+#############################
