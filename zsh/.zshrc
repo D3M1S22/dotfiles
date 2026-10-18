@@ -55,7 +55,7 @@ reboot-win() {
 ###### local bin source ######
 #
 
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
+export PATH="$HOME/.local/bin:$PATH"
 
 #
 #############################
