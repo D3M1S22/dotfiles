@@ -11,6 +11,8 @@
   ]
   ++ lib.optionals isDarwin [
     # MAC_MODULES
+    ./antigravity-cli/antigravity-cli.nix #antigravity-cli
+    ./puremac/puremac.nix #puremac
     ./gh/gh.nix #gh
     # ./nvim/nvim.nix #nvim
     ./starship/starship.nix #starship
